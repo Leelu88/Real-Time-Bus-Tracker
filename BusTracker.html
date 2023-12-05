@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Add a default marker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+    .map-overlay {
+      position: absolute;
+      left: 0;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <div class="map-overlay top">
+    <button style="font-size: 2em;" onclick="move()">
+      Show stops in Kingman, AZ
+    </button>
+  </div>
+
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibGVlbHU4OCIsImEiOiJjbHByc2o1ZXEwMnF0MmtsYnVtZTJuZzhvIn0.cUlFxV9kk9MTetq6ZnxOvw';
+
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-114.053009, 35.189442], // Kingman, AZ coordinates
+      zoom: 14
+    });
+
+    var marker = new mapboxgl.Marker()
+      .setLngLat([-114.053009, 35.189442]) // Kingman, AZ marker coordinates
+      .addTo(map);
+
+    const busStops = [
+      [-114.012563, 35.254812],
+      [-114.018812, 35.254937],
+      [-114.018812, 35.261063],
+    ];
+
+    let counter = 0;
+    function move(){
+      setTimeout(()=>{
+        if (counter >= busStops.length) return;
+        marker.setLngLat(busStops[counter]);
+        counter++;
+        move();
+      }, 1000); 
+    }
+  </script>
+</body>
+</html>
